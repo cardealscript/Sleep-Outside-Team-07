@@ -47,5 +47,13 @@ export default class ProductDetails {
       this.product.DescriptionHtmlSimple;
 
     document.getElementById('addToCart').dataset.id = this.product.Id;
+
+    const isOnSale = this.product.FinalPrice < this.product.ListPrice;
+    if (isOnSale) {
+      const badge = document.createElement('span');
+      badge.className = 'discount-badge';
+      badge.textContent = 'Sale';
+      document.querySelector('.product-detail').prepend(badge);
+    }
   }
 }
