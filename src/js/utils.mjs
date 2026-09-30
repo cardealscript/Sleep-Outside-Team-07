@@ -80,3 +80,25 @@ export function formDataToJSON(formElement) {
   });
   return convertedJSON;
 }
+
+// ===============
+
+export function alertMessage(message, scroll = true) {
+  const alert = document.createElement('div');
+  alert.classList.add('alert');
+  alert.innerHTML = `
+    <p>${message}</p>
+    <span class="close">&times;</span>
+  `;
+
+  const main = document.querySelector('main');
+  main.prepend(alert);
+
+  if (scroll) {
+    window.scrollTo(0, 0);
+  }
+
+  alert.querySelector('.close').addEventListener('click', () => {
+    alert.remove();
+  });
+}

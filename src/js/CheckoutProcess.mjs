@@ -1,4 +1,4 @@
-import { getLocalStorage, formDataToJSON } from './utils.mjs';
+import { getLocalStorage, formDataToJSON, alertMessage } from './utils.mjs';
 import ExternalServices from './ExternalServices.mjs';
 
 const services = new ExternalServices();
@@ -78,10 +78,15 @@ export default class CheckoutProcess {
 
     try {
       const response = await services.checkout(formData);
-      console.log('Order submitted:', response);
+      localStorage.removeItem(this.key);
+      window.location.href = '/checkout/success.html';
       return response;
     } catch (err) {
-      console.error('Checkout failed:', err);
+      const errorMessage =
+        err.message && err.message.message
+          ? err.message.message
+          : 'There was a problem with your order. Please check your information and try again.';
+      alertMessage(errorMessage);
     }
   }
 }
