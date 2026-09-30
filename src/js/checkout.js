@@ -12,5 +12,11 @@ document.querySelector('#zip').addEventListener('blur', () => {
 
 document.forms['checkout'].addEventListener('submit', (e) => {
   e.preventDefault();
-  checkoutProcess.checkout(e.target);
+  const form = e.target;
+  const isValid = form.checkValidity();
+  form.reportValidity();
+
+  if (isValid) {
+    checkoutProcess.checkout(form);
+  }
 });

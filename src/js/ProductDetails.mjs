@@ -1,4 +1,4 @@
-import { setLocalStorage } from './utils.mjs';
+import { setLocalStorage, alertMessage } from './utils.mjs';
 
 export default class ProductDetails {
   constructor(productId, dataSource) {
@@ -19,6 +19,9 @@ export default class ProductDetails {
     let cart = JSON.parse(localStorage.getItem('so-cart')) || [];
     const existingItem = cart.find((item) => item.Id === this.product.Id);
 
+    alertMessage(`${this.product.NameWithoutBrand} was added to your cart.`, false);
+    this.animateCartIcon();
+
     if (existingItem) {
       existingItem.quantity = (existingItem.quantity || 1) + 1;
     } else {
@@ -29,6 +32,14 @@ export default class ProductDetails {
     setLocalStorage('so-cart', cart);
   }
 
+  animateCartIcon() {
+  const cartIcon = document.querySelector('.cart');
+  if (cartIcon) {
+    cartIcon.classList.add('cart-bounce');
+    setTimeout(() => cartIcon.classList.remove('cart-bounce'), 400);
+  }
+}
+  
   renderProductDetails() {
     document.querySelector('h3').textContent = this.product.Brand.Name;
     document.querySelector('h2').textContent = this.product.NameWithoutBrand;
